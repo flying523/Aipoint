@@ -3,46 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Prompt 智能寶庫</title>
+    <title>AI Prompt</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <style>
-        .card { transition: transform 0.2s; }
-        .card:hover { transform: translateY(-5px); }
+        body { background-color: #f8fafc; }
+        .card { transition: all 0.3s ease; border: 1px solid #e2e8f0; }
+        .card:hover { transform: translateY(-5px); border-color: #94a3b8; }
+        .btn-copy { background-color: #38bdf8; }
+        .btn-copy:hover { background-color: #0ea5e9; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 min-h-screen p-4 md:p-8">
+<body class="text-slate-700 min-h-screen p-4 md:p-8">
 
     <div class="max-w-6xl mx-auto">
         <!-- 標題區域 -->
-        <header class="text-center mb-10">
-            <h1 class="text-3xl font-bold mb-4 flex items-center justify-center gap-2">
-                🚀 AI Prompt 智能寶庫
-            </h1>
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-light text-slate-800 mb-2">AI Prompt</h1>
+            <div class="h-1 w-16 bg-sky-400 mx-auto rounded-full mb-4"></div>
             <a href="https://docs.google.com/spreadsheets/d/1tNjE1T5E8shqtaTiwQpTZaxT0lkJRmXuF6J8exiW5gc/edit?usp=sharing" 
-               target="_blank" class="text-sm text-gray-500 hover:text-blue-600 underline">
-                📁 開啟原始資料 Google Sheet
+               target="_blank" class="text-xs text-slate-400 hover:text-sky-600 transition">
+                檢視原始資料表
             </a>
         </header>
 
         <!-- 搜尋與分類 -->
-        <div class="mb-10 text-center">
-            <input type="text" id="searchInput" placeholder="🔍 搜尋提示詞..." 
-                   class="w-full max-w-lg p-4 rounded-full border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 mb-6">
-            
-            <div id="filterButtons" class="flex flex-wrap justify-center gap-2">
-                <button class="filter-btn px-4 py-2 bg-blue-600 text-white rounded-full text-sm font-medium" data-cat="全部">全部</button>
-            </div>
+        <div class="mb-12 text-center">
+            <input type="text" id="searchInput" placeholder="輸入關鍵字搜尋..." 
+                   class="w-full max-w-md p-3 rounded-xl border border-slate-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-200">
         </div>
 
         <!-- 卡片容器 -->
         <div id="cardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- 動態插入卡片 -->
+            <!-- 動態載入 -->
         </div>
     </div>
 
     <script>
-        // 設定 Google Sheet CSV 下載連結 (使用發布為 CSV 的連結)
         const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT5E8shqtaTiwQpTZaxT0lkJRmXuF6J8exiW5gc/pub?output=csv';
 
         async function init() {
@@ -52,7 +49,7 @@
                 const results = Papa.parse(csvData, { header: true });
                 render(results.data);
             } catch (err) {
-                document.getElementById('cardsGrid').innerHTML = '<p class="col-span-full text-center text-red-500">無法讀取資料，請確認 Google Sheet 是否已公開發布為 CSV。</p>';
+                document.getElementById('cardsGrid').innerHTML = '<p class="col-span-full text-center text-slate-400">載入失敗，請檢查網路設定。</p>';
             }
         }
 
@@ -63,12 +60,13 @@
             data.forEach(item => {
                 if (!item.標題) return;
                 const card = document.createElement('div');
-                card.className = 'card bg-white p-6 rounded-2xl shadow-md border-t-4 border-purple-600';
+                card.className = 'card bg-white p-6 rounded-3xl shadow-sm';
                 card.innerHTML = `
-                    <div class="text-xs font-bold text-blue-600 mb-2 bg-blue-50 inline-block px-2 py-1 rounded">${item.類別 || '其他'}</div>
-                    <h3 class="text-lg font-bold mb-3">${item.標題}</h3>
-                    <p class="text-gray-600 text-sm mb-6 h-32 overflow-y-auto">${item.內容 || ''}</p>
-                    <button class="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">複製 Prompt</button>
+                    <div class="text-[10px] font-bold text-sky-500 mb-3 tracking-widest uppercase">${item.類別 || '通用'}</div>
+                    <h3 class="text-md font-bold text-slate-800 mb-3">${item.標題}</h3>
+                    <p class="text-slate-500 text-xs leading-relaxed mb-6 h-24 overflow-y-auto">${item.內容 || ''}</p>
+                    <button onclick="navigator.clipboard.writeText('${item.內容?.replace(/'/g, "\\'")}')" 
+                            class="btn-copy w-full py-2 text-white text-xs font-bold rounded-xl transition">複製</button>
                 `;
                 grid.appendChild(card);
             });
