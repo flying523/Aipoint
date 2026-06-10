@@ -1,78 +1,115 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Prompt</title>
+    <title>AI Prompt 智能寶庫</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <style>
-        body { background-color: #f8fafc; }
-        .card { transition: all 0.3s ease; border: 1px solid #e2e8f0; }
-        .card:hover { transform: translateY(-5px); border-color: #94a3b8; }
-        .btn-copy { background-color: #38bdf8; }
-        .btn-copy:hover { background-color: #0ea5e9; }
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        body { font-family: 'Noto Sans TC', sans-serif; }
     </style>
 </head>
-<body class="text-slate-700 min-h-screen p-4 md:p-8">
+<body class="bg-slate-50 min-h-screen text-slate-800">
 
-    <div class="max-w-6xl mx-auto">
-        <!-- 標題區域 -->
-        <header class="text-center mb-12">
-            <h1 class="text-4xl font-light text-slate-800 mb-2">AI Prompt</h1>
-            <div class="h-1 w-16 bg-sky-400 mx-auto rounded-full mb-4"></div>
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-3xl font-bold mb-2 flex items-center justify-center gap-2">🚀 AI Prompt 智能寶庫</h1>
             <a href="https://docs.google.com/spreadsheets/d/1tNjE1T5E8shqtaTiwQpTZaxT0lkJRmXuF6J8exiW5gc/edit?usp=sharing" 
-               target="_blank" class="text-xs text-slate-400 hover:text-sky-600 transition">
-                檢視原始資料表
+               target="_blank" class="text-slate-500 hover:text-blue-600 underline text-sm">
+               📄 開啟原始資料 Google Sheet
             </a>
         </header>
 
-        <!-- 搜尋與分類 -->
-        <div class="mb-12 text-center">
-            <input type="text" id="searchInput" placeholder="輸入關鍵字搜尋..." 
-                   class="w-full max-w-md p-3 rounded-xl border border-slate-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-200">
+        <!-- Search -->
+        <div class="max-w-xl mx-auto mb-8">
+            <input type="text" placeholder="🔍 搜尋提示詞..." 
+                   class="w-full px-6 py-3 rounded-full border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm">
         </div>
 
-        <!-- 卡片容器 -->
-        <div id="cardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- 動態載入 -->
+        <!-- Filters -->
+        <div class="flex flex-wrap justify-center gap-2 mb-6">
+            <button class="px-5 py-2 bg-blue-600 text-white rounded-full text-sm font-medium hover:bg-blue-700 transition">全部</button>
+            <button class="px-5 py-2 bg-white border border-slate-200 rounded-full text-sm hover:bg-slate-100 transition">內容創作</button>
+            <button class="px-5 py-2 bg-white border border-slate-200 rounded-full text-sm hover:bg-slate-100 transition">筆記精煉</button>
+            <button class="px-5 py-2 bg-white border border-slate-200 rounded-full text-sm hover:bg-slate-100 transition">程式應用</button>
+            <button class="px-5 py-2 bg-white border border-slate-200 rounded-full text-sm hover:bg-slate-100 transition">簡報表達</button>
+            <button class="px-5 py-2 bg-white border border-slate-200 rounded-full text-sm hover:bg-slate-100 transition">程式生成</button>
+            <button class="px-5 py-2 bg-white border border-slate-200 rounded-full text-sm hover:bg-slate-100 transition">文本優化</button>
+            <button class="px-5 py-2 bg-white border border-slate-200 rounded-full text-sm hover:bg-slate-100 transition">生文校正</button>
+            <button class="px-5 py-2 bg-white border border-slate-200 rounded-full text-sm hover:bg-slate-100 transition">專案企劃</button>
+            <button class="px-5 py-2 bg-white border border-slate-200 rounded-full text-sm hover:bg-slate-100 transition">圖片生成</button>
+            <button class="px-5 py-2 bg-white border border-slate-200 rounded-full text-sm hover:bg-slate-100 transition">筆記整理</button>
+            <button class="px-5 py-2 bg-white border border-slate-200 rounded-full text-sm hover:bg-slate-100 transition">資訊整理</button>
+        </div>
+        
+        <div class="flex justify-center mb-10">
+            <button class="px-5 py-2 bg-white border border-slate-200 rounded-full text-sm hover:bg-slate-100 transition">心智圖法</button>
+        </div>
+
+        <!-- AI Section Header -->
+        <h2 class="text-xl font-bold mb-6 flex items-center gap-2">🧠 AI 協思</h2>
+
+        <!-- Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- 卡片 1 -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col border-t-4 border-t-purple-600">
+                <span class="text-xs text-blue-700 bg-blue-50 w-fit px-2 py-1 rounded mb-3 font-semibold">內容創作</span>
+                <h3 class="font-bold text-lg mb-3">意義單詞</h3>
+                <p class="text-slate-600 text-sm mb-6 flex-grow">將文章的重點部分，尋找一個代表性英文字母，並使這些字母的首字組合成一個具有意義的單詞...</p>
+                <button class="w-full py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition">複製 Prompt</button>
+            </div>
+            <!-- 卡片 2 -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col border-t-4 border-t-purple-600">
+                <span class="text-xs text-blue-700 bg-blue-50 w-fit px-2 py-1 rounded mb-3 font-semibold">內容創作</span>
+                <h3 class="font-bold text-lg mb-3">品牌名稱</h3>
+                <p class="text-slate-600 text-sm mb-6 flex-grow">完成 ChatGPT 角色定義後，依據「品牌定義」與「產品介紹」發想 5 個產品名稱與標題...</p>
+                <button class="w-full py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition">複製 Prompt</button>
+            </div>
+            <!-- 卡片 3 -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col border-t-4 border-t-purple-600">
+                <span class="text-xs text-blue-700 bg-blue-50 w-fit px-2 py-1 rounded mb-3 font-semibold">筆記精煉</span>
+                <h3 class="font-bold text-lg mb-3">長編文章</h3>
+                <p class="text-slate-600 text-sm mb-6 flex-grow">為這一篇長篇文章，進行以下四個步驟，每一個步驟都提供給文章與標示出來...</p>
+                <button class="w-full py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition">複製 Prompt</button>
+            </div>
+            <!-- 卡片 4 -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col border-t-4 border-t-purple-600">
+                <span class="text-xs text-blue-700 bg-blue-50 w-fit px-2 py-1 rounded mb-3 font-semibold">筆記精煉</span>
+                <h3 class="font-bold text-lg mb-3">書籍精煉</h3>
+                <p class="text-slate-600 text-sm mb-6 flex-grow">請對 @[檔名] 啟動【終極煉金管線】，一次執行四步驟整合：第一步：全域架構導航...</p>
+                <button class="w-full py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition">複製 Prompt</button>
+            </div>
+            <!-- 卡片 5 -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col border-t-4 border-t-purple-600">
+                <span class="text-xs text-blue-700 bg-blue-50 w-fit px-2 py-1 rounded mb-3 font-semibold">筆記精煉</span>
+                <h3 class="font-bold text-lg mb-3">書籍精煉</h3>
+                <p class="text-slate-600 text-sm mb-6 flex-grow">（書籍內容摘要空間）</p>
+                <button class="w-full py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition">複製 Prompt</button>
+            </div>
+            <!-- 卡片 6 -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col border-t-4 border-t-purple-600">
+                <span class="text-xs text-blue-700 bg-blue-50 w-fit px-2 py-1 rounded mb-3 font-semibold">筆記精煉</span>
+                <h3 class="font-bold text-lg mb-3">提取練習</h3>
+                <p class="text-slate-600 text-sm mb-6 flex-grow">我剛讀完了關於[填入具體段落標題]的內容。現在請幫我進行深度研磨...</p>
+                <button class="w-full py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition">複製 Prompt</button>
+            </div>
+            <!-- 卡片 7 -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col border-t-4 border-t-purple-600">
+                <span class="text-xs text-blue-700 bg-blue-50 w-fit px-2 py-1 rounded mb-3 font-semibold">內容創作</span>
+                <h3 class="font-bold text-lg mb-3">影片清理</h3>
+                <p class="text-slate-600 text-sm mb-6 flex-grow">你的角色是一位「逐字稿校對員」，不是編輯。任務：1-僅刪除口語填充詞、重複說法...</p>
+                <button class="w-full py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition">複製 Prompt</button>
+            </div>
+            <!-- 卡片 8 -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col border-t-4 border-t-purple-600">
+                <span class="text-xs text-blue-700 bg-blue-50 w-fit px-2 py-1 rounded mb-3 font-semibold">內容創作</span>
+                <h3 class="font-bold text-lg mb-3">影片清理</h3>
+                <p class="text-slate-600 text-sm mb-6 flex-grow">你的角色是一位「內容結構化整理員」，不是編輯。我會提供一段約 4000 字的影片文案...</p>
+                <button class="w-full py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition">複製 Prompt</button>
+            </div>
         </div>
     </div>
-
-    <script>
-        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT5E8shqtaTiwQpTZaxT0lkJRmXuF6J8exiW5gc/pub?output=csv';
-
-        async function init() {
-            try {
-                const response = await fetch(csvUrl);
-                const csvData = await response.text();
-                const results = Papa.parse(csvData, { header: true });
-                render(results.data);
-            } catch (err) {
-                document.getElementById('cardsGrid').innerHTML = '<p class="col-span-full text-center text-slate-400">載入失敗，請檢查網路設定。</p>';
-            }
-        }
-
-        function render(data) {
-            const grid = document.getElementById('cardsGrid');
-            grid.innerHTML = '';
-            
-            data.forEach(item => {
-                if (!item.標題) return;
-                const card = document.createElement('div');
-                card.className = 'card bg-white p-6 rounded-3xl shadow-sm';
-                card.innerHTML = `
-                    <div class="text-[10px] font-bold text-sky-500 mb-3 tracking-widest uppercase">${item.類別 || '通用'}</div>
-                    <h3 class="text-md font-bold text-slate-800 mb-3">${item.標題}</h3>
-                    <p class="text-slate-500 text-xs leading-relaxed mb-6 h-24 overflow-y-auto">${item.內容 || ''}</p>
-                    <button onclick="navigator.clipboard.writeText('${item.內容?.replace(/'/g, "\\'")}')" 
-                            class="btn-copy w-full py-2 text-white text-xs font-bold rounded-xl transition">複製</button>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        init();
-    </script>
 </body>
 </html>
